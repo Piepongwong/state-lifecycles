@@ -6,16 +6,16 @@
 
 * Know how the Component Tree works
 * How the DOM is rendered in the browser
-* Have a notion of state and props importance
+* Understand state and props
 * Know how the Component Lifecycle works
 
 ## Introduction - Know how the Component Tree works
 
-**Components are the core building block of React apps.** A typical React app is a set of components which can be represented as a **component tree**. This tree has one root component (usually named "App.js") that contains all child components.
+**Components are the core building block of React apps.** A typical React app is a set of components which can be represented as a **component tree**. This tree has one root component that contains all child components. The convention is to call the root component `App.js`.
 
 React lets you define components as classes or functions. **Functional components** are functions that return jsx to the. React renders it consequently to the DOM. Functional components`can receive props` but they `don't have state`. This is super important to remember for later, when we'll explain what props and state are.
 
-**Components** defined **as classes** provide more features. The first and the most important feature is **state**. One way to define a React component as a class is by extending with `React.Component`:
+**Class base components** provide more features. The first and the most important feature is **state**. One way to define a React component as a class is by extending it with `React.Component`:
 
 ```jsx
 import React from 'react';
@@ -27,13 +27,13 @@ class Welcome extends React.Component {
 }
 ```
 
-Here we extend our class (*Welcome*) with `Component` that we imported from `react`. Now we can inherit all its useful properties and methods. We always have to import `React` and `Component` when we want to use a class based Component.
+Here we extend our class (*Welcome*) with `Component`, which we imported from `react`. Now we can inherit all its useful properties and methods. We always have to import `React` and `Component` when we want to use class based components.
 
-So far this all looks familiar, right? This is the way our `App.js`, the root component, is built.
+So far this all looks familiar, right? This is the way we've built our root component before.
 
-Lets shake things up a bit. So far we have only one component (*App.js*). We said that React is all about working with a lots of components, so let's create some more. 
+Lets shake things up a bit. So far we've only one component (*App.js*). We said that React is all about working with lots of components, so let's create some more. 
 Create a folder `components` in the root directory of the project. In that folder, create `User.js`.
-`User.js` is going to be an example of the *functional* or so called *stateless* component.
+`User.js` is going to be an example of the *functional* or *stateless* component.
 
 ```jsx
 // User.js
@@ -52,9 +52,9 @@ export default user;
 
 For now you can leave all the code in the App.js. We will restructure it step by step and make it more useful.
 
-Here we can introduce the concept of **props**. Props are the `changes that come from outside of the component` or more visually described, they are `the data passed into the component`.
+Here we can introduce the concept of **props**. Props are the `changes that come from outside of the component` or put differently, they are `the data passed into the component`.
 
-Import the `<User />` tag in our `App.js` component and make the render method of `App.js` return `<User />`. While your on it, pass some data down to `<User />`.
+Import the `<User />` tag in our `App.js` component and make the render method of `App.js` return `<User />`. While you're on it, pass some data down to `<User />`. Do you see how `<User />` has become a child component of `<App />`?
 
 ```js
 // App.js
@@ -79,11 +79,10 @@ const user = (props) => {
 }
 ...
 ```
-Note that we are inside the functional component and that's why we can refer to props object with just `{props.firstName}`, but if we were inside the class we would have to use `this` keyword so it would be `{this.props.firstName}`.
+We can refer to the props with `{props.firstName}`. If we would use a class based component we would have to use the `this` keyword: `{this.props.firstName}`.
 
-If rebundle our app now (`npm run webpack`) we can see the changes.
 
-And now if we talk about reusability, we can pass any data to as many `<User />` components as we need and have them rendered onto the DOM.
+We can pass different data to as many `<User />` components as we need. This enables us to reuse the same component multiple times.
 
 ```js
 // App.js
@@ -95,16 +94,15 @@ return (
     </div>
 );
 ```
-
-Rebundle your app and check out the changes in the DOM.
+Rebundle your our app now (`npm run webpack`) to see the changes.
 
 So far we've covered `props` and we now know that props allow us to `pass data to components`. Components can not change their own props. Components can however change their own state.
 
-**State is referring to changes within the component.** All these changes will cause the DOM to re-render and possibly to update the view.
+**State refers to changes within the component.** All these changes will cause the DOM to re-render and possibly to update the view.
 
-The React `Component` class that we always import at the beginning of our code has a special property called `state`. Remember that this also means that we can use state only in components that are classes extended by Component class.
+The React `Component` class that we always import at the beginning of our code has a special property called `state`. Remember that this also means, that we can use state only in components that are classes extended by Component class.
 
-So let's go to our `App.js`, so far the only component built by class that extends `Component` and let's introduce `state` there.
+So let's go to our `App.js`, so far the only class based component that extends `Component`.
 
 ```jsx
 // App.js
@@ -137,9 +135,9 @@ class App extends Component {
 export default App;
 ```
 
-If we rebundle our app now, we will not see any difference and we are using the state. If state changes, that will lead to re-rendering and updating the DOM.
+If we rebundle our app now, we will not see any difference. Only if the state changes the DOM wil re-render.
 
-To change the state, some kind of event needs to be triggered. Let's create `button` element in our `render()` method inside `App.js` and let's attach the **onClick** listener to it. Also, let's add two new properties inside our state object: `clickCount` and let's set it to `0` and `backColor` set to `yellow`. So at first we want to change the state of our App component and we want to see the changes reflecting on the DOM as we change the state. Let's create `clickHandler()` method that will update the state with every click on the button that has this event attached to it using *onClick* listener. 
+To change the state, some kind of event needs to be triggered. Let's create a `button` element in our `render()` method inside `App.js` and attach the **onClick** listener to it. Also, let's add two new properties inside our state object: `clickCount` and let's set it to `0` and `backColor` set to `yellow`. So at first we want to change the state of our App component and we want to see the changes reflecting on the DOM as we change the state. Let's create `clickHandler()` method that will update the state with every click on the button that has this event attached to it using *onClick* listener. 
 So far we passed only *firstName* props to our *User.js* component but we have a lot of information in our *App.js* component so let's update our *User.js*:
 
 ```jsx
