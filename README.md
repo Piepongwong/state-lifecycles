@@ -11,11 +11,11 @@
 
 ## Introduction - Know how the Component Tree works
 
-**Components are the core building block of React apps.** A typical React app is a set of components which can be represented as a **component tree** - which has one root component (usually named "App.js") that contains all child components.
+**Components are the core building block of React apps.** A typical React app is a set of components which can be represented as a **component tree**. This tree has one root component (usually named "App.js") that contains all child components.
 
-React lets you define components as classes or functions. **Functional components** are just JavaScript functions and they let you return/render some jsx to the DOM. They `can receive props` but they `don't have state`. This is super important to remember for later, when we'll explain what  props and state are.
+React lets you define components as classes or functions. **Functional components** are functions that return jsx to the. React renders it consequently to the DOM. Functional components`can receive props` but they `don't have state`. This is super important to remember for later, when we'll explain what props and state are.
 
-**Components** defined **as classes** provide more features. The first and the most important feature is **state**. One way to define a React component as a class is by extending it by `React.Component`:
+**Components** defined **as classes** provide more features. The first and the most important feature is **state**. One way to define a React component as a class is by extending with `React.Component`:
 
 ```jsx
 import React from 'react';
@@ -27,34 +27,13 @@ class Welcome extends React.Component {
 }
 ```
 
-A more common way is to extend class by `Component` class imported from `react` library:
-
-```jsx
-import React, { Component } from 'react';
-
-class Welcome extends Component {
-  render() {
-    // return some jsx here
-  }
-}
-```
-
-Here we extend our class (*Welcome*) with `Component` that we import from `react` so we can inherit all its useful properties and methods. We always have to import `React` and `Component` when create a class based Component.
-
-:::info
-Importing `React` from `react` library is required because it is responsible for rendering anything to the DOM.
-:::
+Here we extend our class (*Welcome*) with `Component` that we imported from `react`. Now we can inherit all its useful properties and methods. We always have to import `React` and `Component` when we want to use a class based Component.
 
 So far this all looks familiar, right? This is the way our `App.js`, the root component, is built.
 
-:::info
-:bulb: Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called `props`) and return React elements describing what should appear on the screen.
-
-:::
-
-Let's go now into our code in `my-first-react-app` and let's make some structural changes. First of all, so far we have only one component (*App.js component*) and we said that React is all about working with a lot of components, so let's update our code. 
-In the root of our app let's create folder `components` and in this folder, let's create `User.js` file.
-`User.js` is going to be example of the *functional* or so called *stateless* component.
+Lets shake things up a bit. So far we have only one component (*App.js*). We said that React is all about working with a lots of components, so let's create some more. 
+Create a folder `components` in the root directory of the project. In that folder, create `User.js`.
+`User.js` is going to be an example of the *functional* or so called *stateless* component.
 
 ```jsx
 // User.js
@@ -71,10 +50,11 @@ const user = () => {
 export default user;
 ```
 
-For now you can leave all the code in the App.js but slowly we will restructure it and make it more useful.
-Here we can introduce the concept of **props** - these are the `changes that come from outside of the component` or more visually described, they are `the data passed into the component`.
+For now you can leave all the code in the App.js. We will restructure it step by step and make it more useful.
 
-In our `render` method in `App.js` component, let's find `<User />` tag and let's pass some data down to the `User.js` component.
+Here we can introduce the concept of **props**. Props are the `changes that come from outside of the component` or more visually described, they are `the data passed into the component`.
+
+Import the `<User />` tag in our `App.js` component and make the render method of `App.js` return `<User />`. While your on it, pass some data down to `<User />`.
 
 ```js
 // App.js
@@ -103,7 +83,7 @@ Note that we are inside the functional component and that's why we can refer to 
 
 If rebundle our app now (`npm run webpack`) we can see the changes.
 
-And now if we talk about reusability, we can pass any data to as many `<User />` components we need and have them rendered onto the DOM.
+And now if we talk about reusability, we can pass any data to as many `<User />` components as we need and have them rendered onto the DOM.
 
 ```js
 // App.js
@@ -118,15 +98,11 @@ return (
 
 Rebundle your app and check out the changes in the DOM.
 
-So far we covered `props` and we now know that props allow us to `pass data in the component` or more professionally explained - **props allow you to pass data down the component tree**. Changes in component triggered by props will eventually lead to re-rendering the DOM.
-Now let's see what is the state and why it is so important for us. 
-**State is referring to changes within the component.** All these changes will also trigger re-rendering the DOM.
+So far we've covered `props` and we now know that props allow us to `pass data to components`. Components can not change their own props. Components can however change their own state.
 
-:::info
-The changes in `props` and/ or `state` trigger React to re-render the components and potentially update the DOM.
-:::
+**State is referring to changes within the component.** All these changes will cause the DOM to re-render and possibly to update the view.
 
-React `Component` class that we always import at the beginning of our code has special property called `state`. remember that this also means that we can use state only in components that are classes extended by Component class.
+The React `Component` class that we always import at the beginning of our code has a special property called `state`. Remember that this also means that we can use state only in components that are classes extended by Component class.
 
 So let's go to our `App.js`, so far the only component built by class that extends `Component` and let's introduce `state` there.
 
@@ -163,7 +139,7 @@ export default App;
 
 If we rebundle our app now, we will not see any difference and we are using the state. If state changes, that will lead to re-rendering and updating the DOM.
 
-To change the state, some kind of event needs to be triggered. Let's create `button` element in our `render()` method inside `App.js` and let's attach **onClick** listener to it. Also let's add two new properties inside our state object: `clickCount` and let's set it to `0` and `backColor` set to `yellow`. So at first we want to change the state of our App component and we want to see the changes reflecting on the DOM as we change the state. Let's create `clickHandler()` method that will update the state with every click on the button that has this event attached to it using *onClick* listener. 
+To change the state, some kind of event needs to be triggered. Let's create `button` element in our `render()` method inside `App.js` and let's attach the **onClick** listener to it. Also, let's add two new properties inside our state object: `clickCount` and let's set it to `0` and `backColor` set to `yellow`. So at first we want to change the state of our App component and we want to see the changes reflecting on the DOM as we change the state. Let's create `clickHandler()` method that will update the state with every click on the button that has this event attached to it using *onClick* listener. 
 So far we passed only *firstName* props to our *User.js* component but we have a lot of information in our *App.js* component so let's update our *User.js*:
 
 ```jsx
