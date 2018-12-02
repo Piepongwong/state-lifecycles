@@ -51,7 +51,7 @@ export default user;
 
 For now you can leave all the code in the App.js. We will restructure it step by step and make it more useful.
 
-Here we can introduce the concept of **props**. Props are the `changes that come from outside of the component` or put differently, they are `the data passed into the component`.
+Here we can introduce the concept of **props**. Props are the **changes that come from outside of the component** or put differently, they are **the data passed into the component**.
 
 Import the `<User />` tag in our `App.js` component and make the render method of `App.js` return `<User />`. While you're on it, pass some data down to `<User />`. Do you see how `<User />` has become a child component of `<App />`?
 
@@ -205,7 +205,7 @@ export default user;
 To see the changes, rebundle your app.
 Note that we've used the predefined method **setState()** to update the state. It's mandatory to use when updating the state. **Do not change the state directly. Always use setState()**.
 
-Okay okay, so every time we click on the button a counter gets incremented. Veeeeerry impressivee. Let's do something more visual. If the counter reaches 5 the names of the users change. At the same time, the background color of `<h2>` changes on every click to some random color. The helper function `colorMapper` will generate random colors for us.
+Okay okay, so every time we click on a button a counter gets incremented. Veeeeerry impressive. Let's do something more visual. If the counter reaches 5 the names of the users change. At the same time, the background color of `<h2>` changes on every click to some random color. The helper function `colorMapper` will generate random colors for us.
 
 Update *App.js* one more time:
 
@@ -250,11 +250,11 @@ Last but not least: the **lifecycle methods** or so called **lifecycle hooks**. 
 
 ![image](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_e51b95a23ce298a92e62a2d61505b57e.jpg)
 
-As we can see, all the methods can be divided into 4 categories depending on the state of the component when each will be triggered.
+As we can see, the methods can be divided into 4 categories.
 
 ### Mounting or First Render
 
-These methods are called in the following order when an instance of a component is being created and inserted into the DOM:
+These methods are called in the folowing order when an instance of a component is created:
 
 1. **constructor()**
 2. **componentWillMount()**
@@ -262,8 +262,8 @@ These methods are called in the following order when an instance of a component 
 4. **componentDidMount()**
 
 
-The `constructor()` get executed first. This is actually the same constructor we saw earlier in classes, so it's the ES6 class feature, it's not something related strictly to React. 
-We don't have to use `constructor()` but if we do, we will use it to `pass some props` to it and by default it needs to contain super keyword used as a method that receives props as argument. Also, we may `set the state` in the constructor but don't forget to use `this` keyword with it. The third thing the constructor might be used for is to `bind the methods` to the component.
+The `constructor()` get executed first. This is the same constructor we saw earlier in classes, so it's the ES6 class feature, it's not something related strictly to React. 
+We don't have to use `constructor()` but if we do, we will use it to `pass some props` to it. It needs to contain the super keyword. Also, we may `set the state` in the constructor but don't forget to prefix it with the `this` keyword. The third thing the constructor might be used for is to `bind the methods` to the component.
 
 ```js
 constructor(props){
@@ -280,7 +280,7 @@ After constructor(), the `componentWillMount()` method gets executed. This compo
 
 The `render()` method is next in line when we mount the component. So far we saw that render() actually renders the DOM but at this point that's not the case just yet. `render()` structures and prepares JSX and how it's supposed to look like when DOM gets rendered later.
 
-`componentDidMount()` is called in the end just to confirm that this component is successfully mounted. Since the *render()* method is already executed, the **DOM will be already present**. If the DOM is present, it means that you can reference it. If we need to cause some side-effect, like reaching out to fetch some data, this can be good place to do it. We *shouldn't call setState()* here since this will lead to re-rendering of the component.
+`componentDidMount()` is called in the end to confirm that this component is mounted successfully. Since the *render()* method is already executed, the **DOM will be already present**. If the DOM is present, it means that you can reference it. If we need to cause some side-effect, like reaching out to fetch some data, this can be good place to do it. We *shouldn't call setState()* here since this will lead to re-rendering of the component.
 
 In between *render()* and *componentDidMount()* all the other component will render and all their mounting methods will happen.
 
