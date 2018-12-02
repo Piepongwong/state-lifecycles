@@ -5,17 +5,16 @@
 ## Learning Goals
 
 * Know how the Component Tree works
-* How the DOM is rendered in the browser
 * Understand state and props
 * Know how the Component Lifecycle works
 
-## Introduction - Know how the Component Tree works
+## Know how the Component Tree works
 
-**Components are the core building block of React apps.** A typical React app is a set of components which can be represented as a **component tree**. This tree has one root component that contains all child components. The convention is to call the root component `App.js`.
+**Components are the core building block of React apps.** A typical React app is a set of components which can be represented as a **component tree**. This tree has one root component that contains all child components. The root component is called `App.js` by convention.
 
-React lets you define components as classes or functions. **Functional components** are functions that return jsx to the. React renders it consequently to the DOM. Functional components`can receive props` but they `don't have state`. This is super important to remember for later, when we'll explain what props and state are.
+React lets you define components as classes or functions. **Functional components** are functions that return jsx. React renders it consequently to the DOM. Functional components`can receive props` but they `don't have state`. This is important to remember for later, when we'll explain what props and state are.
 
-**Class base components** provide more features. The first and the most important feature is **state**. One way to define a React component as a class is by extending it with `React.Component`:
+**Class based components** provide more features. The first and the most important feature is **state**. One way to define a React component as a class is by extending it with `React.Component`:
 
 ```jsx
 import React from 'react';
@@ -31,7 +30,7 @@ Here we extend our class (*Welcome*) with `Component`, which we imported from `r
 
 So far this all looks familiar, right? This is the way we've built our root component before.
 
-Lets shake things up a bit. So far we've only one component (*App.js*). We said that React is all about working with lots of components, so let's create some more. 
+Lets shake things up a bit. So far we've only one component (*App.js*). We said that React is all about working with components, so let's create some more. 
 Create a folder `components` in the root directory of the project. In that folder, create `User.js`.
 `User.js` is going to be an example of the *functional* or *stateless* component.
 
@@ -81,7 +80,6 @@ const user = (props) => {
 ```
 We can refer to the props with `{props.firstName}`. If we would use a class based component we would have to use the `this` keyword: `{this.props.firstName}`.
 
-
 We can pass different data to as many `<User />` components as we need. This enables us to reuse the same component multiple times.
 
 ```js
@@ -96,13 +94,13 @@ return (
 ```
 Rebundle your our app now (`npm run webpack`) to see the changes.
 
-So far we've covered `props` and we now know that props allow us to `pass data to components`. Components can not change their own props. Components can however change their own state.
+So far we've covered `props` and we now know that props allow us to `pass data to components`. Components can not change their own props. however components can change their own state.
 
-**State refers to changes within the component.** All these changes will cause the DOM to re-render and possibly to update the view.
+**State refers to changes within the component.** All these changes will cause the DOM to re-render and to update the view if necessary.
 
-The React `Component` class that we always import at the beginning of our code has a special property called `state`. Remember that this also means, that we can use state only in components that are classes extended by Component class.
+The React `Component` class that we always import at the beginning of our code has a special property called `state`. Remember that this also means, that we can use state only in components that are classes extended by the Component class.
 
-So let's go to our `App.js`, so far the only class based component that extends `Component`.
+`App.js` is so far the only class based component that extends `Component`. It's time to give it some state.
 
 ```jsx
 // App.js
@@ -137,30 +135,11 @@ export default App;
 
 If we rebundle our app now, we will not see any difference. Only if the state changes the DOM wil re-render.
 
-To change the state, some kind of event needs to be triggered. Let's create a `button` element in our `render()` method inside `App.js` and attach the **onClick** listener to it. Also, let's add two new properties inside our state object: `clickCount` and let's set it to `0` and `backColor` set to `yellow`. So at first we want to change the state of our App component and we want to see the changes reflecting on the DOM as we change the state. Let's create `clickHandler()` method that will update the state with every click on the button that has this event attached to it using *onClick* listener. 
-So far we passed only *firstName* props to our *User.js* component but we have a lot of information in our *App.js* component so let's update our *User.js*:
+To change the state, some kind of event needs to be triggered. Let's create a `button` element in `App.js` and attach the **onClick** listener to it. Also add two new properties inside our state object: `clickCount` and `backColor`. Set the first to `0` and the latter to `yellow`. 
 
-```jsx
-// User.js
-import React from "react";
+Let's create the `clickHandler()` method that will update the state with every click.
 
-const user = (props) => {
-    return (
-        <div>
-            <h2 style={{backgroundColor:props.theColor}}>
-                Hello, {props.firstName} {props.lastName}!
-            </h2> 
-            <img src={props.image} width='370' height='300' />
-        </div>
-    )
-}
-
-export default user;
-```
-
-(Also at this point you can comment out all the old code from the lesson 2 and 3, since that was 'hard coded' for the purpose of explaining how to setup React app and how to use JSX. From now on, we will be dynamically changing our content and state and that will trigger updating the UI/DOM.)
-
-And our updated `App.js` now looks like this:
+Our updated `App.js` now looks like this:
 
 ```jsx
 class App extends Component {
@@ -203,12 +182,32 @@ class App extends Component {
 
 ```
 
+Note that we're passing `backColor` to `<User />` as a prop. We're also passing other data out of `<App />`'s state to `<User />`, like `image` and `avatarUrl`.
+
+```jsx
+// User.js
+import React from "react";
+
+const user = (props) => {
+    return (
+        <div>
+            <h2 style={{backgroundColor:props.theColor}}>
+                Hello, {props.firstName} {props.lastName}!
+            </h2> 
+            <img src={props.image} width='370' height='300' />
+        </div>
+    )
+}
+
+export default user;
+```
+
 To see the changes, rebundle your app.
-Note that we used predefined method **setState()** to update the state. This method is part of the Component's method gallery and it's mandatory to use it when updating the state. **It's wrong to directly change the state, skipping the setState()**.
+Note that we've used the predefined method **setState()** to update the state. It's mandatory to use when updating the state. **Do not change the state directly. Always use setState()**.
 
-The last thing we want to cover is reflecting the changes of the state in one component to visually change another component updating its DOM. So let's say we want to change names of our users if the *clickCount* is 5 and also we want to update *backgroundColor* property of the *h2* tag inside `User.js` component on every click, but when *clickCount* is 5 we want to set it back to original color and that is *yellow*. This means we will have to update the state of *App.js* depending of condition and these updates will trigger changes in `User.js` component through the props that are passed. Make sure you add `colorMapper()` method, which will help us to change background color to the random colors.
+Okay okay, so every time we click on the button a counter gets incremented. Veeeeerry impressivee. Let's do something more visual. If the counter reaches 5 the names of the users change. At the same time, the background color of `<h2>` changes on every click to some random color. The helper function `colorMapper` will generate random colors for us.
 
-Let's update *App.js* one more time:
+Update *App.js* one more time:
 
 ```jsx
 // App.js - add changes to clickHandler(), add new colorMapper() method, the rest of the code stays the same
@@ -222,33 +221,32 @@ colorMapper = () => {
 clickHandler = () => {
     this.setState({
       clickCount: this.state.clickCount+1
-    }, ()=>{
-        if(this.state.clickCount === 5){
-            this.setState({
-                userA: {
-                        firstName: 'Jon',
-                        lastName: 'Doe',
-                        avatarUrl:'http://www.kodlamaker.com/wp-content/uploads/2015/10/codingforkids.png'
-                },
-                userB: {
-                        firstName: 'Susanne',
-                        lastName: 'Smith',
-                        avatarUrl:'https://s3.amazonaws.com/owler-image/logo/ironhack_owler_20180828_221413_original.png'
-                },
-                backColor: 'yellow'
-            })
-        } else {
-            this.setState({
-                backColor: this.colorMapper()
-            })
-        }
-    }) 
+    })
+    if(this.state.clickCount % 5 === 0){
+        this.setState({
+            userA: {
+                    firstName: 'Jon',
+                    lastName: 'Doe',
+                    avatarUrl:'http://www.kodlamaker.com/wp-content/uploads/2015/10/codingforkids.png'
+            },
+            userB: {
+                    firstName: 'Susanne',
+                    lastName: 'Smith',
+                    avatarUrl:'https://s3.amazonaws.com/owler-image/logo/ironhack_owler_20180828_221413_original.png'
+            },
+            backColor: 'yellow'
+        })
+    } else {
+        this.setState({
+            backColor: this.colorMapper()
+        })
+    }
 }
   ...
 ```
-Now if we rebundle our app, we can see the changes. This starts to be interesting right?
+Now if we rebundle our app, we can see the changes. Are you slightly more impressed?
 
-The last but definitely not the least important are **lifecycle methods** or so called **lifecycle hooks**. Remember, these methods exist only in `stateful` components, that is classes.
+Last but not least: the **lifecycle methods** or so called **lifecycle hooks**. Remember, these methods exist only in `stateful` components.
 
 ![image](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_e51b95a23ce298a92e62a2d61505b57e.jpg)
 
