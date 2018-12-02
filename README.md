@@ -6,7 +6,7 @@
 
 * Know how the Component Tree works
 * Understand state and props
-* Know how the Component Lifecycle works
+* Know how the Component Lifecycle work
 
 ## Know how the Component Tree works
 
